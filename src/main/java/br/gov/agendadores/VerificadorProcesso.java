@@ -10,7 +10,7 @@ public class VerificadorProcesso implements Job {
 	private Logger logger = Logger.getLogger(VerificadorProcesso.class);
 	
     @Override  
-    public void execute(JobExecutionContext context) throws JobExecutionException {  
-        logger.info("Quartz test job executed!");  
+    public void execute(JobExecutionContext context) throws JobExecutionException {
+    	logger.info("Quartz test job executed!");
     }  
 }
