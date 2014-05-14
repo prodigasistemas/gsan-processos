@@ -3,17 +3,17 @@ package br.gov.agendadores;
 import java.util.List;
 
 import javax.ejb.EJB;
+import javax.ejb.Schedule;
+import javax.ejb.Stateless;
 import javax.jms.JMSDestinationDefinition;
 import javax.jms.JMSDestinationDefinitions;
 
 import org.apache.log4j.Logger;
-import org.quartz.Job;
-import org.quartz.JobExecutionContext;
-import org.quartz.JobExecutionException;
 
 import br.gov.mensageiros.MessageSender;
 import br.gov.model.ProcessoIniciado;
 import br.gov.modelos.ProcessoEJB;
+
 
 @JMSDestinationDefinitions({
 	 @JMSDestinationDefinition(name = "java:global/jms/myQueue",
@@ -21,18 +21,16 @@ import br.gov.modelos.ProcessoEJB;
 	 destinationName="queue1234",
 	 description="My Queue")
 })
-public class VerificadorProcesso implements Job {
+@Stateless
+public class VerificadorProcesso {
 	
-	@EJB
-	private ProcessoEJB processoEJB;
-	
-	@EJB 
-	private MessageSender sender;
+	@EJB private ProcessoEJB processoEJB;
+	@EJB private MessageSender sender;
 	
 	private Logger logger = Logger.getLogger(VerificadorProcesso.class);
 	
-    @Override  
-    public void execute(JobExecutionContext context) throws JobExecutionException {
+	@Schedule(second="30", minute="*",hour="*", persistent=false)
+    public void verificar() {
     	List<ProcessoIniciado> processos = processoEJB.buscarProcessosEmEspera();
     	
     	for (ProcessoIniciado processoIniciado : processos) {
