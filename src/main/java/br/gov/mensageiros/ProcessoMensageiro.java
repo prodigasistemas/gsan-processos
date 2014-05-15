@@ -8,7 +8,7 @@ import javax.jms.JMSContext;
 import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 
-import br.gov.model.ProcessoIniciado;
+import br.gov.model.batch.ProcessoIniciado;
 
 @Stateless
 public class ProcessoMensageiro {
@@ -17,11 +17,11 @@ public class ProcessoMensageiro {
 	@JMSConnectionFactory("java:comp/DefaultJMSConnectionFactory")
 	JMSContext contexto;
 
-	@Resource(mappedName="java:global/jms/myQueue")
-	Queue fila;
+	@Resource(mappedName="java:global/jms/processosFila")
+	Queue processosFila;
 
 	public void enviarParaFila(ProcessoIniciado processoIniciado) {
 		ObjectMessage mensagem = contexto.createObjectMessage(processoIniciado);
-		contexto.createProducer().send(fila, mensagem);
+		contexto.createProducer().send(processosFila, mensagem);
 	}
 }

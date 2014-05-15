@@ -11,7 +11,7 @@ import javax.jms.JMSDestinationDefinitions;
 import org.apache.log4j.Logger;
 
 import br.gov.mensageiros.ProcessoMensageiro;
-import br.gov.model.ProcessoIniciado;
+import br.gov.model.batch.ProcessoIniciado;
 import br.gov.modelos.ProcessoEJB;
 
 
