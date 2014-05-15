@@ -11,17 +11,17 @@ import javax.jms.Queue;
 import br.gov.model.ProcessoIniciado;
 
 @Stateless
-public class MessageSender {
+public class ProcessoMensageiro {
 
 	@Inject
 	@JMSConnectionFactory("java:comp/DefaultJMSConnectionFactory")
-	JMSContext context;
+	JMSContext contexto;
 
 	@Resource(mappedName="java:global/jms/myQueue")
-	Queue queue;
+	Queue fila;
 
-	public void sendMessage(ProcessoIniciado processoIniciado) {
-		ObjectMessage message = context.createObjectMessage(processoIniciado);
-		context.createProducer().send(queue, message);
+	public void enviarParaFila(ProcessoIniciado processoIniciado) {
+		ObjectMessage mensagem = contexto.createObjectMessage(processoIniciado);
+		contexto.createProducer().send(fila, mensagem);
 	}
 }

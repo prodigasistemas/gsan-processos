@@ -10,7 +10,7 @@ import javax.jms.JMSDestinationDefinitions;
 
 import org.apache.log4j.Logger;
 
-import br.gov.mensageiros.MessageSender;
+import br.gov.mensageiros.ProcessoMensageiro;
 import br.gov.model.ProcessoIniciado;
 import br.gov.modelos.ProcessoEJB;
 
@@ -25,7 +25,7 @@ import br.gov.modelos.ProcessoEJB;
 public class VerificadorProcesso {
 	
 	@EJB private ProcessoEJB processoEJB;
-	@EJB private MessageSender sender;
+	@EJB private ProcessoMensageiro sender;
 	
 	private Logger logger = Logger.getLogger(VerificadorProcesso.class);
 	
@@ -34,7 +34,7 @@ public class VerificadorProcesso {
     	List<ProcessoIniciado> processos = processoEJB.buscarProcessosEmEspera();
     	
     	for (ProcessoIniciado processoIniciado : processos) {
-    		sender.sendMessage(processoIniciado);
+    		sender.enviarParaFila(processoIniciado);
     		logger.info("Processo [id: " + processoIniciado.getId() + "] enviado!");
 		}
     }  
