@@ -1,8 +1,8 @@
 package br.gov.agendadores;
 
-import java.util.Date;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
 
 import javax.ejb.EJB;
@@ -16,7 +16,7 @@ import org.apache.log4j.Logger;
 import br.gov.mensageiros.ProcessoMensageiro;
 import br.gov.model.batch.ProcessoIniciado;
 import br.gov.model.batch.ProcessoSituacao;
-import br.gov.modelos.ProcessoEJB;
+import br.gov.servicos.batch.ProcessoEJB;
 
 
 @JMSDestinationDefinitions({
