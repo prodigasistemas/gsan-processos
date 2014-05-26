@@ -17,6 +17,7 @@ import br.gov.mensageiros.ProcessoMensageiro;
 import br.gov.model.batch.ProcessoIniciado;
 import br.gov.model.batch.ProcessoSituacao;
 import br.gov.servicos.batch.ProcessoEJB;
+import br.gov.servicos.batch.ProcessoParametroEJB;
 
 
 @JMSDestinationDefinitions({
@@ -29,6 +30,7 @@ import br.gov.servicos.batch.ProcessoEJB;
 public class VerificadorProcesso {
 	
 	@EJB private ProcessoEJB processoEJB;
+	@EJB private ProcessoParametroEJB processoParametroEJB;
 	@EJB private ProcessoMensageiro sender;
 	
 	private List<ProcessoIniciado> processosProcessados;
@@ -62,6 +64,7 @@ public class VerificadorProcesso {
     		if(limitePermitido(processoIniciado)){
     			sender.enviarParaFila(processoIniciado);
         		processoEJB.atualizaSituacaoProcesso(processoIniciado, ProcessoSituacao.EM_FILA);
+        		processoParametroEJB.inserirParametrosDefault(processoIniciado);
         		processosProcessados.add(processoIniciado);
     		}
 		}
