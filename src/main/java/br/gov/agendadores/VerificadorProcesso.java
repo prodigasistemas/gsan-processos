@@ -36,7 +36,7 @@ public class VerificadorProcesso {
 	private List<ProcessoIniciado> processosProcessados;
 	private Logger logger = Logger.getLogger(VerificadorProcesso.class);
 	
-	@Schedule(second="20", minute="*",hour="*", persistent=false)
+	@Schedule(minute="10",hour="*", persistent=false)
     public void verificarProcessosAgendados() {
 		List<ProcessoIniciado> processos = processoEJB.buscarProcessosPorSituacao(ProcessoSituacao.AGENDADO);
 		
@@ -55,7 +55,7 @@ public class VerificadorProcesso {
 		return processoIniciado.getAgendamento().before(new Date());
 	}
 
-	@Schedule(second="30", minute="*",hour="*", persistent=false)
+	@Schedule(minute="*",hour="*", persistent=false)
     public void verificarProcessosEmEspera() {
     	List<ProcessoIniciado> processos = processoEJB.buscarProcessosPorSituacao(ProcessoSituacao.EM_ESPERA);
     	
