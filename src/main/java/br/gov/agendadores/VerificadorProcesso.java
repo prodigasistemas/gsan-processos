@@ -16,8 +16,8 @@ import org.apache.log4j.Logger;
 import br.gov.mensageiros.ProcessoMensageiro;
 import br.gov.model.batch.ProcessoIniciado;
 import br.gov.model.batch.ProcessoSituacao;
-import br.gov.servicos.batch.ProcessoEJB;
-import br.gov.servicos.batch.ProcessoParametroEJB;
+import br.gov.servicos.batch.ProcessoRepositorio;
+import br.gov.servicos.batch.ProcessoParametroRepositorio;
 
 
 @JMSDestinationDefinitions({
@@ -29,8 +29,8 @@ import br.gov.servicos.batch.ProcessoParametroEJB;
 @Stateless
 public class VerificadorProcesso {
 	
-	@EJB private ProcessoEJB processoEJB;
-	@EJB private ProcessoParametroEJB processoParametroEJB;
+	@EJB private ProcessoRepositorio processoEJB;
+	@EJB private ProcessoParametroRepositorio processoParametroEJB;
 	@EJB private ProcessoMensageiro sender;
 	
 	private List<ProcessoIniciado> processosProcessados;
