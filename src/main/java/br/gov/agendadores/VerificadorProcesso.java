@@ -1,5 +1,6 @@
 package br.gov.agendadores;
 
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -16,8 +17,8 @@ import org.apache.log4j.Logger;
 import br.gov.mensageiros.ProcessoMensageiro;
 import br.gov.model.batch.ProcessoIniciado;
 import br.gov.model.batch.ProcessoSituacao;
-import br.gov.servicos.batch.ProcessoRepositorio;
 import br.gov.servicos.batch.ProcessoParametroRepositorio;
+import br.gov.servicos.batch.ProcessoRepositorio;
 
 
 @JMSDestinationDefinitions({
@@ -66,11 +67,30 @@ public class VerificadorProcesso {
         		processoEJB.atualizaSituacaoProcesso(processoIniciado, ProcessoSituacao.EM_FILA);
         		processoParametroEJB.inserirParametrosDefault(processoIniciado);
         		processosProcessados.add(processoIniciado);
+        		
+        		processarRecorrencia(processoIniciado);
     		}
 		}
     	
     	logger.info("Processos [ " + Arrays.toString(processosProcessados.toArray()) + "] enviados para fila!");
     }
+
+	private void processarRecorrencia(ProcessoIniciado processoIniciado) {
+		if(processoIniciado.getProcesso().isRecorrente()) {
+			ProcessoIniciado proximoProcesso = new ProcessoIniciado();
+			proximoProcesso.setUsuario(processoIniciado.getUsuario());
+			proximoProcesso.setPrioridade(processoIniciado.getPrioridade());
+			proximoProcesso.setProcesso(processoIniciado.getProcesso());
+			proximoProcesso.setProcessoPrecedente(processoIniciado.getProcessoPrecedente());
+			proximoProcesso.setSituacao(ProcessoSituacao.AGENDADO.getId());
+			proximoProcesso.setAgendamento(processoIniciado.getProcesso().calculaProximaExecucao());
+			proximoProcesso.setUltimaAlteracao(Date.from(Instant.now()));
+			
+			processoEJB.inserirProcesso(proximoProcesso);
+			
+			logger.info("Processos Reagendado: " + proximoProcesso);
+		}
+	}
 
 	private boolean limitePermitido(ProcessoIniciado processoIniciado) {
 		int limitePermitido = processoEJB.buscarLimitePorProcesso(processoIniciado.getProcesso());
