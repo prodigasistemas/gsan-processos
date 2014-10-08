@@ -9,8 +9,6 @@ import java.util.List;
 import javax.ejb.EJB;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
-import javax.jms.JMSDestinationDefinition;
-import javax.jms.JMSDestinationDefinitions;
 
 import org.apache.log4j.Logger;
 
@@ -20,13 +18,6 @@ import br.gov.model.batch.ProcessoSituacao;
 import br.gov.servicos.batch.ProcessoParametroRepositorio;
 import br.gov.servicos.batch.ProcessoRepositorio;
 
-
-@JMSDestinationDefinitions({
-	 @JMSDestinationDefinition(name = "java:global/jms/processosFila",
-	 interfaceName = "javax.jms.Queue",
-	 destinationName="processosFila",
-	 description="Fila de Processos")
-})
 @Stateless
 public class VerificadorProcesso {
 	
