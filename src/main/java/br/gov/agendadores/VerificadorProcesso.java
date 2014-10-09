@@ -40,7 +40,9 @@ public class VerificadorProcesso {
 			}
 		}
 		
-		logger.info("Processos [ " + Arrays.toString(processosProcessados.toArray()) + "] alterados para EM ESPERA!");
+		if(!processosProcessados.isEmpty()) {
+    		logger.info("Processos [ " + Arrays.toString(processosProcessados.toArray()) + "] alterados para EM ESPERA!");
+    	}
 	}
 	
 	private boolean prontoParaProcessar(ProcessoIniciado processoIniciado) {
@@ -63,7 +65,9 @@ public class VerificadorProcesso {
     		}
 		}
     	
-    	logger.info("Processos [ " + Arrays.toString(processosProcessados.toArray()) + "] enviados para fila!");
+    	if(!processosProcessados.isEmpty()) {
+    		logger.info("Processos [ " + Arrays.toString(processosProcessados.toArray()) + "] enviados para fila!");
+    	}
     }
 	
 	@Schedule(second="*/30",minute="*",hour="*", persistent=false)
@@ -75,11 +79,14 @@ public class VerificadorProcesso {
     		if(limitePermitido(processoIniciado)){
     			sender.enviarParaFila(processoIniciado);
         		processoEJB.atualizaSituacaoProcesso(processoIniciado, ProcessoSituacao.EM_FILA);
+        		processoParametroEJB.atualizarParametro(processoIniciado, "percentualProcessado", "1");
         		processosProcessados.add(processoIniciado);
     		}
 		}
     	
-    	logger.info("Processos Reiniciados [ " + Arrays.toString(processosProcessados.toArray()) + "] enviados para fila!");
+    	if(!processosProcessados.isEmpty()) {
+    		logger.info("Processos Reiniciados [ " + Arrays.toString(processosProcessados.toArray()) + "] enviados para fila!");
+    	}
     }
 
 	private void processarRecorrencia(ProcessoIniciado processoIniciado) {
