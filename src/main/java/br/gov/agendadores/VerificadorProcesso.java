@@ -21,6 +21,7 @@ import br.gov.servicos.batch.ProcessoRepositorio;
 @Stateless
 public class VerificadorProcesso {
 	
+	@EJB private GerenciadorLog gerenciadorLog;
 	@EJB private ProcessoRepositorio processoEJB;
 	@EJB private ProcessoParametroRepositorio processoParametroEJB;
 	@EJB private ProcessoMensageiro sender;
@@ -60,7 +61,6 @@ public class VerificadorProcesso {
         		processoEJB.atualizaSituacaoProcesso(processoIniciado, ProcessoSituacao.EM_FILA);
         		processoParametroEJB.inserirParametrosDefault(processoIniciado);
         		processosProcessados.add(processoIniciado);
-        		
         		processarRecorrencia(processoIniciado);
     		}
 		}
@@ -80,6 +80,7 @@ public class VerificadorProcesso {
     			sender.enviarParaFila(processoIniciado);
         		processoEJB.atualizaSituacaoProcesso(processoIniciado, ProcessoSituacao.EM_FILA);
         		processoParametroEJB.atualizarParametro(processoIniciado, "percentualProcessado", "1");
+        		gerenciadorLog.reiniciaLog(processoIniciado);
         		processosProcessados.add(processoIniciado);
     		}
 		}
