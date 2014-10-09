@@ -47,7 +47,7 @@ public class VerificadorProcesso {
 		return processoIniciado.getAgendamento().before(new Date());
 	}
 
-	@Schedule(minute="*",hour="*", persistent=false)
+	@Schedule(second="*/30",minute="*",hour="*", persistent=false)
     public void verificarProcessosEmEspera() {
     	List<ProcessoIniciado> processos = processoEJB.buscarProcessosPorSituacao(ProcessoSituacao.EM_ESPERA);
     	
@@ -64,6 +64,22 @@ public class VerificadorProcesso {
 		}
     	
     	logger.info("Processos [ " + Arrays.toString(processosProcessados.toArray()) + "] enviados para fila!");
+    }
+	
+	@Schedule(second="*/30",minute="*",hour="*", persistent=false)
+    public void verificarProcessosReiniciados() {
+    	List<ProcessoIniciado> processos = processoEJB.buscarProcessosPorSituacao(ProcessoSituacao.REINICIADO);
+    	
+    	processosProcessados = new ArrayList<ProcessoIniciado>();
+    	for (ProcessoIniciado processoIniciado : processos) {
+    		if(limitePermitido(processoIniciado)){
+    			sender.enviarParaFila(processoIniciado);
+        		processoEJB.atualizaSituacaoProcesso(processoIniciado, ProcessoSituacao.EM_FILA);
+        		processosProcessados.add(processoIniciado);
+    		}
+		}
+    	
+    	logger.info("Processos Reiniciados [ " + Arrays.toString(processosProcessados.toArray()) + "] enviados para fila!");
     }
 
 	private void processarRecorrencia(ProcessoIniciado processoIniciado) {
