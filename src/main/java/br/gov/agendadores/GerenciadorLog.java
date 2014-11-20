@@ -8,8 +8,6 @@ import java.io.OutputStreamWriter;
 
 import javax.ejb.Stateless;
 
-import org.jboss.util.file.Files;
-
 import br.gov.model.batch.ProcessoIniciado;
 
 @Stateless
@@ -20,12 +18,13 @@ public class GerenciadorLog {
 	public void reiniciaLog(ProcessoIniciado processoIniciado) {
 	    File file = new File(ROOT_PATH + processoIniciado.getId() + "_iniciado.log");
 
-	    File file2 = new File(ROOT_PATH + processoIniciado.getId() + ".log");
-	    if(file2.exists()) {
-	    	Files.delete(file2);
+	    File logFile = new File(ROOT_PATH + processoIniciado.getId() + ".log");
+	    
+	    if(logFile.exists()) {
+	    	logFile.delete();
 	    }
 
-	    file.renameTo(file2);
+	    file.renameTo(logFile);
 	    
 	    gravandoLog(processoIniciado.getId().toString(), "### REINICIADO ###", false);
 	}

@@ -6,7 +6,7 @@
 	<version>0.0.1</version>
 	<name>gsan-processos</name>
 	<packaging>war</packaging>
-	<description>gerenciador de processos do Gsan</description>
+	<description>Gerenciador de Processos do Gsan</description>
 	
 	<properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -23,12 +23,6 @@
         <maven.compiler.source>1.8</maven.compiler.source>
     </properties>
     
-    <!-- <dependencyManagement>  
-        <dependencies>  
-              
-        </dependencies>  
-    </dependencyManagement> -->
-
 	<dependencies>        
 		<dependency>
 		    <groupId>org.quartz-scheduler</groupId>
@@ -52,20 +46,13 @@
 		<dependency>
 		    <groupId>br.gov</groupId>
 		    <artifactId>gsan-persistence</artifactId>
-		    <version>0.1</version>      
-		</dependency>
-		
-		<dependency>
-	        <groupId>javax.servlet</groupId>
-	        <artifactId>javax.servlet-api</artifactId>
-	        <version>3.1.0</version>
-	        <scope>provided</scope>
-	    </dependency>
-	    
-	    <dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-core</artifactId>
-			<version>4.3.5.Final</version>
+		    <version>0.1</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.hibernate</groupId>
+					<artifactId>hibernate-core</artifactId>
+				</exclusion>
+			</exclusions>		    
 		</dependency>
 	</dependencies>
 	
