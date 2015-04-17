@@ -3,3 +3,6 @@
 .DS_Store
 **/.DS_Store
 target/
+scripts/build/build_dev.sh
+scripts/build/build_hml.sh
+scripts/build/build_prd.sh
