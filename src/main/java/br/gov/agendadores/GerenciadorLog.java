@@ -25,8 +25,6 @@ public class GerenciadorLog {
 	    }
 
 	    file.renameTo(logFile);
-	    
-	    gravandoLog(processoIniciado.getId().toString(), "### REINICIADO ###", false);
 	}
 	
 	public void gravandoLog(String idProcesso, String mensagem) {
