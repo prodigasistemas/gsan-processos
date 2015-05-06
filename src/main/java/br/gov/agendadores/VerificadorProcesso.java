@@ -104,15 +104,15 @@ public class VerificadorProcesso {
     
 	@Schedule(second="*/30",minute="*",hour="*", persistent=false)
     public void verificarAtividadesEmEspera() {
-	    marcarAtividadesParaProcessar(ProcessoSituacao.EM_ESPERA);
+	    marcarAtividadeParaProcessar(ProcessoSituacao.EM_ESPERA);
     }
 	
 	@Schedule(second="*/30",minute="*",hour="*", persistent=false)
-    public void verificarProcessosReiniciados() {
-	    marcarAtividadesParaProcessar(ProcessoSituacao.REINICIADO);
+    public void verificarAtividadesReiniciadas() {
+	    marcarAtividadeParaProcessar(ProcessoSituacao.REINICIADO);
     }
 	
-	private void marcarAtividadesParaProcessar(ProcessoSituacao situacao){
+	private void marcarAtividadeParaProcessar(ProcessoSituacao situacao){
         List<ControleProcessoAtividade> atividades = controleAtividade.buscarAtividadesPorSituacao(situacao);
         
         List<ProcessoAtividade> enviadas = new ArrayList<ProcessoAtividade>();
@@ -120,11 +120,7 @@ public class VerificadorProcesso {
         Integer idProcesso = -1;
         
         for (ControleProcessoAtividade controle : atividades) {
-            if (!limitePermitido(controle.getProcessoIniciado())){
-                continue;
-            }
-            
-            if (existeAtividadeEmExecucao(controle)){
+            if (!limitePermitido(controle.getProcessoIniciado()) || existeAtividadeEmExecucao(controle)){
                 continue;
             }
             
@@ -134,7 +130,9 @@ public class VerificadorProcesso {
                 controleAtividade.atualizaSituacaoAtividade(controle.getId(), ProcessoSituacao.EM_FILA);
                 repositorioProcesso.atualizaSituacaoProcesso(controle.getProcessoIniciado().getId(), ProcessoSituacao.EM_FILA);
                 
-                repositorioParametrosProcesso.inserirParametrosDefault(controle.getProcessoIniciado());
+                if (situacao == ProcessoSituacao.EM_ESPERA){
+                    repositorioParametrosProcesso.inserirParametrosDefault(controle.getProcessoIniciado());
+                }
                 
                 enviadas.add(controle.getAtividade());
                 
