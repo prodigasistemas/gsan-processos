@@ -128,6 +128,7 @@ public class VerificadorProcesso {
                 idProcesso = controle.getProcessoIniciado().getProcesso().getId();
                 
                 controleAtividade.atualizaSituacaoAtividade(controle.getId(), ProcessoSituacao.EM_FILA);
+                
                 repositorioProcesso.atualizaSituacaoProcesso(controle.getProcessoIniciado().getId(), ProcessoSituacao.EM_FILA);
                 
                 if (situacao == ProcessoSituacao.EM_ESPERA){
@@ -135,8 +136,6 @@ public class VerificadorProcesso {
                 }
                 
                 enviadas.add(controle.getAtividade());
-                
-                gerenciadorLog.reiniciaLog(controle.getProcessoIniciado());
                 
                 sender.enviarParaFila(new MensagemAtividadeTO().build(controle));
             }
