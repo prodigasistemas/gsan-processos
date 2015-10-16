@@ -7,79 +7,79 @@
 	<name>gsan-processos</name>
 	<packaging>war</packaging>
 	<description>Gerenciador de Processos do Gsan</description>
-	
+
 	<properties>
-        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <version.wildfly.maven.plugin>1.0.1.Final</version.wildfly.maven.plugin>
+		<version.wildfly.maven.plugin>1.0.1.Final</version.wildfly.maven.plugin>
 
-        <version.wildfly>8.0.0.Final-SNAPSHOT</version.wildfly>
+		<version.wildfly>8.0.0.Final-SNAPSHOT</version.wildfly>
 
-        <version.compiler.plugin>3.1</version.compiler.plugin>
-        <version.jar.plugin>2.2</version.jar.plugin>
-        <version.exec.plugin>1.1.1</version.exec.plugin>
+		<version.compiler.plugin>3.1</version.compiler.plugin>
+		<version.jar.plugin>2.2</version.jar.plugin>
+		<version.exec.plugin>1.1.1</version.exec.plugin>
 
-        <maven.compiler.target>1.8</maven.compiler.target>
-        <maven.compiler.source>1.8</maven.compiler.source>
-    </properties>
-    
-	<dependencies>        
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+	</properties>
+
+	<dependencies>
 		<dependency>
-		    <groupId>org.quartz-scheduler</groupId>
-		    <artifactId>quartz</artifactId>
-		    <version>2.1.7</version>
+			<groupId>org.quartz-scheduler</groupId>
+			<artifactId>quartz</artifactId>
+			<version>2.1.7</version>
 		</dependency>
-		
+
 		<dependency>
 			<groupId>org.jboss.logging</groupId>
 			<artifactId>jboss-logging</artifactId>
 			<version>3.1.0.GA</version>
 			<scope>provided</scope>
 		</dependency>
-		
+
 		<dependency>
-            <groupId>javax</groupId>
-            <artifactId>javaee-api</artifactId>
-            <version>7.0</version>
-            <scope>provided</scope>
-        </dependency>
-		
+			<groupId>javax</groupId>
+			<artifactId>javaee-api</artifactId>
+			<version>7.0</version>
+			<scope>provided</scope>
+		</dependency>
+
 		<dependency>
-		    <groupId>br.gov</groupId>
-		    <artifactId>gsan-persistence</artifactId>
-		    <version>0.1</version>
+			<groupId>br.gov</groupId>
+			<artifactId>gsan-persistence</artifactId>
+			<version>0.1</version>
 			<exclusions>
 				<exclusion>
 					<groupId>org.hibernate</groupId>
 					<artifactId>hibernate-core</artifactId>
 				</exclusion>
-			</exclusions>		    
+			</exclusions>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
-        <finalName>${project.artifactId}</finalName>
-        <plugins>
-            <plugin>
-			    <groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-war-plugin</artifactId>
-			    <version>2.4</version>
-			  </plugin>
-            
-            <plugin>
-                <groupId>org.wildfly.plugins</groupId>
-                <artifactId>wildfly-maven-plugin</artifactId>
-                <version>${version.wildfly.maven.plugin}</version>
-            </plugin>
-            <plugin>
-            	<groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>${version.compiler.plugin}</version>
-                <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
-                </configuration>
-            </plugin>
-        </plugins>
-    </build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.4</version>
+			</plugin>
+
+			<plugin>
+				<groupId>org.wildfly.plugins</groupId>
+				<artifactId>wildfly-maven-plugin</artifactId>
+				<version>${version.wildfly.maven.plugin}</version>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>${version.compiler.plugin}</version>
+				<configuration>
+					<source>${maven.compiler.source}</source>
+					<target>${maven.compiler.target}</target>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
 </project>
