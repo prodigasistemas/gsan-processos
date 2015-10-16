@@ -10,7 +10,7 @@ import javax.ejb.EJB;
 import javax.ejb.Schedule;
 import javax.ejb.Stateless;
 
-import org.apache.log4j.Logger;
+import org.jboss.logging.Logger;
 
 import br.gov.mensageiros.ProcessoMensageiro;
 import br.gov.model.batch.ControleProcessoAtividade;
