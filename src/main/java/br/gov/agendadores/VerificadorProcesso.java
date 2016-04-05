@@ -33,7 +33,7 @@ public class VerificadorProcesso {
 	@EJB private ProcessoAtividadeRepositorio processoAtividadeRepositorio;
 	@EJB private ProcessoMensageiro sender;
 	
-	private List<ProcessoIniciado> processosProcessados;
+	protected List<ProcessoIniciado> processosProcessados;
 	private Logger logger = Logger.getLogger(VerificadorProcesso.class);
 	
 	@Schedule(minute="*/10",hour="*", persistent=false)
