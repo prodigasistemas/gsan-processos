@@ -5,6 +5,7 @@ import javax.ejb.Stateless;
 import javax.inject.Inject;
 import javax.jms.JMSConnectionFactory;
 import javax.jms.JMSContext;
+import javax.jms.JMSDestinationDefinition;
 import javax.jms.ObjectMessage;
 import javax.jms.Queue;
 
@@ -12,6 +13,11 @@ import org.jboss.logging.Logger;
 
 import br.gov.servicos.to.MensagemAtividadeTO;
 
+@JMSDestinationDefinition(
+		name = "java:global/jms/processosFila",
+		interfaceName = "javax.jms.Queue",
+		destinationName = "processosFila"
+	)
 @Stateless
 public class ProcessoMensageiro {
     private static Logger logger = Logger.getLogger(ProcessoMensageiro.class);
